@@ -1,0 +1,10 @@
+rdkit
+scikit-learn
+numpy
+seaborn
+pandas
+notebook
+transformers
+torch
+tqdm
+umap-learn

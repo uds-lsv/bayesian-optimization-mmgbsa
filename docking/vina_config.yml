@@ -1,0 +1,6 @@
+protein: /home/uds_mara00002/zinc_project/docking/4HW3.pdbqt
+protein_setup: /home/uds_mara00002/zinc_project/docking/grid.txt
+exhaustiveness: 512
+seed: 0
+n_poses: 5
+ncpu: 8
