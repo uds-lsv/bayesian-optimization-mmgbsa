@@ -1,0 +1,3 @@
+[submodule "bayesian-optimization"]
+	path = bayesian-optimization
+	url = https://github.com/uds-lsv/chemical-lm-active-learning
