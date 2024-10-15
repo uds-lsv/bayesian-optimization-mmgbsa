@@ -45,8 +45,6 @@ def proportional_sampling(df: pd.DataFrame, group_column: str, total_samples: in
 
 
 def sample_dataset(molecules: List[str], size: int, scaffolds=None):
-    """ """
-
     if scaffolds is None:
         scaffolds = [MurckoScaffold.MurckoScaffoldSmiles(smi) for smi in molecules]
 
