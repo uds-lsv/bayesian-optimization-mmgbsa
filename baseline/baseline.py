@@ -9,25 +9,23 @@ import torch
 from rdkit import Chem
 from rdkit.Chem import rdFingerprintGenerator
 from rdkit.Chem.Scaffolds import MurckoScaffold
+from sample_dataset import sample_dataset
 from sklearn.utils import gen_batches
 from torch import nn, optim
 from torch.utils.data import DataLoader, TensorDataset
-
-from sample_dataset import sample_dataset
-
 
 # Setup logging
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    filename=f'baseline.log',
-    filemode='w'
+    filename=f"baseline.log",
+    filemode="w",
 )
 
 logger = logging.getLogger(__file__)
 stdout_handler = logging.StreamHandler(sys.stdout)
 stdout_handler.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 stdout_handler.setFormatter(formatter)
 logger.addHandler(stdout_handler)
 
@@ -84,7 +82,9 @@ class MLPRegressor(nn.Module):
                 loss.backward()
                 optimizer.step()
                 train_loss += loss.item()
-                logger.debug(f"[{epoch:>3}] ({i:>3}/{len(train_loader)}) {loss.item():.3f}")
+                logger.debug(
+                    f"[{epoch:>3}] ({i:>3}/{len(train_loader)}) {loss.item():.3f}"
+                )
 
             avg_train_loss = train_loss / len(train_loader)
             _train_curve.append(avg_train_loss)
@@ -164,8 +164,9 @@ def run_baseline_experiments(df):
     for size, epochs in [(1000, 150), (5000, 150), (10_000, 200)]:
         subset = sample_dataset(df["smiles"].to_list(), size, scaffolds=df["scaffolds"])
         for feature_type in ["fingerprint", "chemberta", "molformer"]:
-
-            logger.info(f"Training a model based on '{feature_type}' for {epochs} epochs with {size} samples.")
+            logger.info(
+                f"Training a model based on '{feature_type}' for {epochs} epochs with {size} samples."
+            )
             X = featurize(df["smiles"].to_list(), feature_type)
             y = df["target"].values
 
@@ -225,96 +226,6 @@ def run_baseline_experiments(df):
     return results
 
 
-def setup_matplotlib_styles():
-    sns.set_style("whitegrid")
-    # sns.set_context("talk")
-
-    plt.rcParams.update(
-        {
-            "text.usetex": True,
-            "font.family": "serif",
-            "font.serif": ["Computer Modern Roman"],
-            "font.size": 16,
-            "lines.linewidth": 2,
-            "axes.labelsize": 18,
-            "axes.titlesize": 22,
-        }
-    )
-
-
-def plot_recall(results):
-    g = sns.relplot(
-        results,
-        x="Training samples",
-        y="Recall",
-        hue="Quantile",
-        col="Feature",
-        kind="line",
-        palette="crest",
-        marker="o",
-        legend=False,
-    )
-
-    g.set_titles(col_template="{col_name}")
-
-    from matplotlib import colormaps
-    from matplotlib.lines import Line2D
-
-    cm = colormaps["crest"]
-    colors = cm(plt.Normalize()([0.01, 0.05, 0.1]))
-
-    legend_elements = [
-        Line2D([0], [0], color="white", label="Quantile:", visible=False),
-        Line2D([0], [0], color=colors[0], label="0.01"),
-        Line2D([0], [0], color=colors[1], label="0.05"),
-        Line2D([0], [0], color=colors[2], label="0.1"),
-    ]
-
-    # Get the figure object
-    fig = plt.gcf()
-
-    # Add the combined legend to the figure
-    legend = fig.legend(
-        handles=legend_elements,
-        loc="lower center",
-        bbox_to_anchor=(0.5, -0.05),
-        ncol=4,
-        columnspacing=1,
-        handletextpad=0.5,
-    )
-
-    # Adjust the appearance of the legend
-    for text in legend.get_texts():
-        if text.get_text() in ["Quantile:"]:
-            text.set_ha("left")  # Align category labels to the left
-            text.set_position((-20, 0))  # Adjust the position as needed
-
-    # Adjust the subplot layout to make room for the legend
-    plt.tight_layout()
-    plt.subplots_adjust(bottom=0.25)
-
-    g.map(lambda color: plt.gca().set_xticks([1000, 5000, 10_000]))
-    g.savefig("baseline_recall.pdf", format="pdf", dpi=300)
-
-
-def plot_enrichment_factor(results):
-    g = sns.relplot(
-        results,
-        x="Training samples",
-        y="Enrichment Factor",
-        hue="Quantile",
-        col="Feature",
-        kind="line",
-        palette="crest",
-        marker="o",
-    )
-
-    g.set_titles(col_template="{col_name}")
-
-    g.map(lambda color: plt.gca().set_xticks([1000, 5000, 10_000]))
-    g.savefig("baseline_ef.pdf", format="pdf", dpi=300)
-
-
 def load_data():
     logger.info(f"Loading data...")
     docking_df = pd.read_csv(
@@ -338,8 +249,6 @@ def main():
     logger.info(f"Data preprocessing")
     results = run_baseline_experiments(df)
     results.to_csv("results.csv")
-    plot_recall(results)
-    plot_enrichment_factor(results)
 
 
 if __name__ == "__main__":
