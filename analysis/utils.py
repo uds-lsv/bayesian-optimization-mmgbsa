@@ -20,7 +20,7 @@ def load_data(db, k_ratio=0.01):
 
     # Better names for plotting etc
     data = data.rename(columns={"iteration": "Iteration"})
-    data["Embedding Model"] = data["embedding_model"].map(
+    data["Embedding Model"] = data["embedding_model"].replace(
         {"fingerprint": "Morgan Fingerprint", "chemberta-mtr": "ChemBERTa-2", "molformer": "MolFormer"}
     )
     data["Surrogate"] = data["surrogate"].map({
@@ -53,7 +53,7 @@ def load_data(db, k_ratio=0.01):
 
     assert (data.groupby(["experiment_id"])["is_top_k_cum"].max() == data.groupby(["experiment_id"])["is_top_k"].sum()).all()
 
-    return data, top_k
+    return data, top_k, source
 
 
 
