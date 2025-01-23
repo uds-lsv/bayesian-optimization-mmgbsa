@@ -1,14 +1,5 @@
-papermill make_plots.ipynb mcl1_mmpbsa_shuffled.ipynb -p db mcl1_mmpbsa_gb_shuffled.sqlite -p TITLE MCL1-MMPBSA
-papermill make_plots.ipynb mcl1_mmpbsa_batch.ipynb -p db mcl1_mmpbsa_gb_batch.sqlite -p TITLE MCL1-MMPBSA
-
-papermill make_plots.ipynb mcl1_vina_shuffled.ipynb -p db mcl1_vina_shuffled.sqlite -p TITLE MCL1-VINA
-papermill make_plots.ipynb mcl1_vina_batch.ipynb -p db mcl1_vina_batch.sqlite -p TITLE MCL1-VINA
-
-papermill make_plots.ipynb enamine10k_shuffled.ipynb -p db enamine_10k_shuffled.sqlite -p TITLE Enamine10k
-papermill make_plots.ipynb enamine10k_batch.ipynb -p db enamine_10k_batch.sqlite -p TITLE Enamine10k
-
-papermill make_plots.ipynb enamine50k_shuffled.ipynb -p db enamine_50k_shuffled.sqlite -p TITLE Enamine50k
-papermill make_plots.ipynb enamine50k_batch.ipynb -p db enamine_50k_batch.sqlite -p TITLE Enamine50k
-
-papermill make_plots.ipynb mcl1_mmpbsa_precomputed_batch.ipynb -p db mcl1_mmpbsa_gb_precomputed_batch.sqlite -p TITLE MCL1-MMPBSA
-papermill make_plots.ipynb mcl1_mmpbsa_precomputed.ipynb -p db mcl1_mmpbsa_gb_precomputed.sqlite -p TITLE MCL1-MMPBSA
+papermill make_plots_combined.ipynb mcl1_mmpbsa.ipynb -p db mcl1_mmpbsa_gb -p TITLE MCL1-MMGBSA
+papermill make_plots_combined.ipynb mcl1_vina.ipynb -p db mcl1_vina -p TITLE MCL1-VINA
+papermill make_plots_combined.ipynb enamine10k.ipynb -p db enamine_10k -p TITLE Enamine10k
+papermill make_plots_combined.ipynb enamine50k.ipynb -p db enamine_50k -p TITLE Enamine50k
+papermill make_plots_combined.ipynb mcl1_mmpbsa_precomputed.ipynb -p db mcl1_mmpbsa_gb_precomputed -p TITLE MCL1-MMGBSA
