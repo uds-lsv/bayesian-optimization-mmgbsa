@@ -1,9 +1,12 @@
 from math import floor
+from matplotlib import pyplot as plt
+from matplotlib.lines import Line2D
 import pandas as pd
 import sqlite3
 from pathlib import Path
 import numpy as np
 from scipy import stats
+import seaborn as sns
 from rdkit import Chem
 from rdkit.Chem import Draw
 
@@ -55,6 +58,81 @@ def load_data(db, k_ratio=0.01):
 
     return data, top_k, source
 
+
+
+class ProcessPlotter:
+
+
+    def __init__(self, data, top_k):
+        self.data = data
+        self.styles = {
+            "ChemBERTa-2": "-",
+            "MolFormer": "--",
+            "Morgan Fingerprint": ":"
+        }
+        
+        self.markers = {
+            "Sequential": "x",
+            "Batched": "o"
+        }
+        self.colors = {}
+        self.top_k = top_k
+        self.hue_order = sorted(self.data["Embedding Model"].unique())
+
+    
+    def plot(self):
+        g = sns.FacetGrid(self.data,
+                           col="Surrogate", hue="Embedding Model", 
+                           hue_order=self.hue_order,
+                           aspect=1.2, height=5)
+        g.map_dataframe(self.plot_lines)
+
+        self.add_legend(g)
+
+    def plot_lines(self, data, color, **kwargs):
+        model = data["Embedding Model"].iloc[0]
+        self.colors[model] = color  # Store for legend 
+        for group, scene in data.groupby("Scenario"):
+            y = scene.groupby("Iteration")["is_top_k_cum"].max() / len(self.top_k)
+
+            plt.plot(
+                y.index, y,
+                data=scene,
+                color=color,
+                linestyle=self.styles[model],
+                marker=self.markers[group] if group == "Batched" else None,
+            )
+
+            plt.xlabel("Iteration")
+            plt.ylabel(f"% Top-{len(self.top_k)} retrieved")
+
+
+    def add_legend(self, g):
+        legend_elements = []
+
+        # Title
+        legend_elements.append(Line2D([0], [0], color='none', label='Embedding Model'))
+
+        # Add B category elements (colors and line styles)
+        for model in self.hue_order:
+            dummy = Line2D(
+                [0], [0], 
+                color=self.colors[model],
+                linestyle=self.styles[model],
+                label=model, 
+                marker=''
+            )
+            legend_elements.append(dummy)
+
+        # Add a separator between Model and Scenario categories
+        legend_elements.append(Line2D([0], [0], color='none', label='Scenario'))
+
+        # Add Scenario elements (markers)
+        marker_dummy = Line2D([0], [0], color='gainsboro', markerfacecolor="k", markeredgecolor="k", marker=self.markers["Batched"], label="Batched", linestyle='solid')
+        legend_elements.append(marker_dummy)
+            
+
+        g.figure.legend(handles=legend_elements, loc='upper left', frameon=False, bbox_to_anchor=(0.99, 0.7))
 
 
 
