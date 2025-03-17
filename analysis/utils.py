@@ -107,8 +107,10 @@ class ProcessPlotter:
                            col_order=col_order,
                            aspect=1.2, height=5)
         g.map_dataframe(self.plot_lines)
-
+        g.set(ylim=(-0.05, 1.05))
         self.add_legend(g)
+
+        return g
 
     def plot_lines(self, data, color, **kwargs):
         model = data["Embedding Model"].iloc[0]
@@ -122,10 +124,12 @@ class ProcessPlotter:
                 color=color,
                 linestyle=self.styles[model],
                 marker=self.markers[group] if group == "Batched" else None,
+                mfc=self.get_color(model, is_batched=False),
+                mec="k"
             )
 
             plt.xlabel("Iteration")
-            plt.ylabel(f"% Top-{self.size_topk} retrieved")
+            plt.ylabel(f"Retrieval Top-{1}%")
 
 
     def add_legend(self, g):
@@ -149,11 +153,16 @@ class ProcessPlotter:
         legend_elements.append(Line2D([0], [0], color='none', label='Scenario'))
 
         # Add Scenario elements (markers)
-        marker_dummy = Line2D([0], [0], color='gainsboro', markerfacecolor="k", markeredgecolor="k", marker=self.markers["Batched"], label="Batched", linestyle='solid')
+        marker_dummy = Line2D([0], [0], color='gainsboro', markerfacecolor="white", markeredgecolor="k", marker=self.markers["Batched"], label="Batched", linestyle='solid')
         legend_elements.append(marker_dummy)
             
 
-        g.figure.legend(handles=legend_elements, loc='upper left', frameon=False, bbox_to_anchor=(0.99, 0.7))
+        legend = g.figure.legend(handles=legend_elements, loc='upper left', frameon=False, bbox_to_anchor=(0.99, 0.7))
+
+        for i, text in enumerate(legend.get_texts()):
+            if text.get_text() in ["Embedding Model", "Scenario"]:
+                text.set_ha('left')
+                text.set_position((-53,0))
 
 
 
