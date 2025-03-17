@@ -96,11 +96,15 @@ class ProcessPlotter:
 
 
     
-    def plot(self, col="Surrogate"):
+    def plot(self, col="Surrogate", col_order=None):
+
+        if col_order is None:
+            col_order=["Linear", "Random Forest"]
+
         g = sns.FacetGrid(self.data,
                            col=col, hue="Embedding Model", 
                            hue_order=self.hue_order,
-                           col_order=["Linear", "Random Forest"],
+                           col_order=col_order,
                            aspect=1.2, height=5)
         g.map_dataframe(self.plot_lines)
 
