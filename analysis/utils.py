@@ -63,7 +63,7 @@ def load_data(db, k_ratio=0.01):
 class ProcessPlotter:
 
 
-    def __init__(self, data, top_k):
+    def __init__(self, data, size_topk):
         self.data = data
         self.styles = {
             "ChemBERTa-2": "-",
@@ -76,14 +76,31 @@ class ProcessPlotter:
             "Batched": "o"
         }
         self.colors = {}
-        self.top_k = top_k
+        self.size_topk = size_topk
         self.hue_order = sorted(self.data["Embedding Model"].unique())
 
+    def get_color(self, embedding_model, is_batched):
+
+        palette = sns.color_palette("tab20")
+        # Slightly darker version for non-batched
+        offset = 0 if not is_batched else 1
+
+        if embedding_model == "ChemBERTa-2":
+            return palette[0 + offset]
+        elif embedding_model == "MolFormer":
+            # Orange
+            return palette[2 + offset]
+        elif embedding_model == "Morgan Fingerprint":
+            # Green
+            return palette[4 + offset]
+
+
     
-    def plot(self):
+    def plot(self, col="Surrogate"):
         g = sns.FacetGrid(self.data,
-                           col="Surrogate", hue="Embedding Model", 
+                           col=col, hue="Embedding Model", 
                            hue_order=self.hue_order,
+                           col_order=["Linear", "Random Forest"],
                            aspect=1.2, height=5)
         g.map_dataframe(self.plot_lines)
 
@@ -91,10 +108,10 @@ class ProcessPlotter:
 
     def plot_lines(self, data, color, **kwargs):
         model = data["Embedding Model"].iloc[0]
-        self.colors[model] = color  # Store for legend 
         for group, scene in data.groupby("Scenario"):
-            y = scene.groupby("Iteration")["is_top_k_cum"].max() / len(self.top_k)
+            y = scene.groupby("Iteration")["is_top_k_cum"].max() / self.size_topk
 
+            color = self.get_color(model, group == "Batched")
             plt.plot(
                 y.index, y,
                 data=scene,
@@ -104,7 +121,7 @@ class ProcessPlotter:
             )
 
             plt.xlabel("Iteration")
-            plt.ylabel(f"% Top-{len(self.top_k)} retrieved")
+            plt.ylabel(f"% Top-{self.size_topk} retrieved")
 
 
     def add_legend(self, g):
@@ -117,7 +134,7 @@ class ProcessPlotter:
         for model in self.hue_order:
             dummy = Line2D(
                 [0], [0], 
-                color=self.colors[model],
+                color=self.get_color(model, is_batched=False),
                 linestyle=self.styles[model],
                 label=model, 
                 marker=''
