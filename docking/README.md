@@ -15,3 +15,6 @@
     ```bash
     python extract_mols.py -db results/*.db
     ```
+
+
+Note that the `molecules.smi` contains the protonated SMILES strings.
