@@ -4,7 +4,7 @@
 
 
 ```
-├── docking.ipynb       # Analysis of docking results
-├── exp_corr.ipynb     # Comparision between Docking and MMGBSA scores on the experimental binders
-├── mmpbsa.ipynb        # 
+├── score_analysis.ipynb # Analysis of docking and mmgbsa results
+├── exp_corr.ipynb       # Comparision between Docking and MMGBSA scores on the experimental binders
+├── screening.ipynb      # Analyze screening results
 ```
