@@ -174,3 +174,4 @@ bindflow_scan/ligands/
 results/
 baseline/wandb/
 archive/
+*.tar.gz
