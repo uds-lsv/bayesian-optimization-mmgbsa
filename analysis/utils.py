@@ -41,7 +41,12 @@ def load_data(db, k_ratio=0.01):
     assert len(data["data_path"].unique()) == 1,  "Database contains results from more than 1 dataset."
 
     root = Path(__file__).parent.parent
-    data_source =  Path(Path(data["data_path"].unique().item()).name)
+    data_source =  Path(data["data_path"].unique().item()).name
+
+    # We renamed the files at some point.
+    if data_source.endswith("_protonated.csv"):
+        data_source = data_source.replace("_protonated", "")
+
     source_fp = root / "data" / data_source
 
     assert source_fp.exists(), source_fp
@@ -128,7 +133,7 @@ class ProcessPlotter:
                 mec="k"
             )
 
-            plt.xlabel("Iteration")
+            plt.xlabel("#Simulations")
             plt.ylabel(f"Retrieval Top-{1}%")
 
 
@@ -138,7 +143,7 @@ class ProcessPlotter:
         # Title
         legend_elements.append(Line2D([0], [0], color='none', label='Embedding Model'))
 
-        # Add B category elements (colors and line styles)
+        # Add embedding model elements (colors and line styles)
         for model in self.hue_order:
             dummy = Line2D(
                 [0], [0], 
