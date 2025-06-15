@@ -3,5 +3,10 @@
     "files.exclude": {
         "results/**/*": true,
         "bindflow_scan/ligands/**/*0": true
-    }
+    },
+    "spellright.language": [],
+    "spellright.documentTypes": [
+        "latex",
+        "plaintext"
+    ]
 }
