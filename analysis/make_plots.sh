@@ -5,3 +5,4 @@ papermill make_plots_combined.ipynb enamine50k.ipynb -p db enamine_50k -p TITLE 
 # papermill make_plots_combined.ipynb mcl1_mmpbsa_precomputed.ipynb -p db mcl1_mmpbsa_gb_precomputed -p TITLE MCL1-MMGBSA
 papermill make_plots_combined.ipynb mcl1_vina_proto.ipynb -p db mcl1_vina_proto -p TITLE MCL1-VINA
 papermill make_plots_combined.ipynb mcl1_mmgbsa_proto.ipynb -p db mcl1_mmpbsa_gb_proto -p TITLE MCL1-MMGBSA
+papermill make_plots_combined.ipynb mcl1_mmpbsa.ipynb -p db mcl1_mmpbsa_batch.ipynb -p TITLE MCL1-MMPBSA
