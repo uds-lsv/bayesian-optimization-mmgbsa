@@ -1,4 +1,3 @@
-# MMPBSA-BO
 For each step of the workflow we have a single directory with more detailed instructions on how to reproduce each step.
 
 1. Screening of ZINC for similar molecules: `screening`
