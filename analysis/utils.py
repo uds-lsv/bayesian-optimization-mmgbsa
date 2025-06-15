@@ -133,7 +133,7 @@ class ProcessPlotter:
                 mec="k"
             )
 
-            plt.xlabel("#Simulations")
+            plt.xlabel("Iteration")
             plt.ylabel(f"Retrieval Top-{1}%")
 
 
