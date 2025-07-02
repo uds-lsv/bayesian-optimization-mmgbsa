@@ -2,6 +2,8 @@ For each step of the workflow we have a single directory with more detailed inst
 
 1. Screening of ZINC for similar molecules: `screening`
 2. Docking of the screened molecules: `docking`
+3. Simulation using MMGBSA: An example configuration of the system for can be found in `simulation_configuration`
+4. Before running Bayesian Optimization/Active learning we preprocess (e.g. deduplication) the data. See `data/process_data.ipynb`
 
 
 ## Active Learning
