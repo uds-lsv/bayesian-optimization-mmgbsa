@@ -1,0 +1,15 @@
+universe                = docker
+docker_image            = docker.lsv.uni-saarland.de/mrdupont/bomollm:latest
+initialdir              = /nethome/mrdupont/
+executable              = /nethome/mrdupont/bayesian-optimization-mmgbsa/smoothness/estimate.sh
+output                  = /nethome/mrdupont/chemical-lm-active-learning/logs/smoothness.$(Cluster).$(Process).out
+error                   = /nethome/mrdupont/chemical-lm-active-learning/logs/smoothness.$(Cluster).$(Process).err
+log                     = /nethome/mrdupont/chemical-lm-active-learning/logs/smoothness.$(Cluster).$(Process).log
+notification            = always
+notify_user             = mara00002@stud.uni-saarland.de
+request_CPUs            = 12
+request_memory          = 186GB
+# Fixes issue with cl17
+transfer_executable     = False
+requirements            = ((machine != "cl18lx.lsv.uni-saarland.de") && (machine != "cl17lx.lsv.uni-saarland.de"))
+queue 1
