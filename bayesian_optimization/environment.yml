@@ -1,0 +1,24 @@
+name: protein_ligand
+channels:
+  - conda-forge
+  - nvidia
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.9.17
+  - pytorch
+  - torchvision
+  - pytorch-cuda=11.8
+  - ca-certificates
+  - openssl
+  - transformers
+  - scikit-learn=1.3.0
+  - certifi
+  - notebook
+  - numpy
+  - openbabel
+  - matplotlib
+  - seaborn
+  - mdanalysis
+  - rdkit
+  - pdbfixer
