@@ -1,0 +1,30 @@
+FROM mambaorg/micromamba:2.5.0-debian12
+
+USER root
+
+RUN apt-get update && apt-get install -y \
+    wget \
+    libxss1 \
+    xvfb \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY docker/environment-docking.yml /tmp/environment-docking.yml
+
+RUN micromamba install -y -n base -f /tmp/environment-docking.yml && \
+    micromamba clean --all --yes
+
+# Install ADFR suite (required for receptor preparation)
+RUN wget -q -O ADFRsuite.tar.gz https://ccsb.scripps.edu/adfr/download/1038/ && \
+    tar -xzf ADFRsuite.tar.gz && \
+    cd ADFRsuite_* && \
+    echo "Y" | ./install.sh -d /opt/ADFRsuite -c 0 && \
+    cd .. && \
+    rm -rf ADFRsuite.tar.gz ADFRsuite_*
+ENV PATH="/opt/ADFRsuite/bin:${PATH}"
+
+# Install smina
+RUN wget -q -O /usr/local/bin/smina https://sourceforge.net/projects/smina/files/smina.static/download && \
+    chmod +x /usr/local/bin/smina
+
+CMD ["/bin/bash"]

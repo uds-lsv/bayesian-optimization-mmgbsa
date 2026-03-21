@@ -1,0 +1,27 @@
+FROM mambaorg/micromamba:2.5.0-debian12
+
+USER root
+
+RUN apt-get update && apt-get install -y \
+    wget \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY docker/environment.yml /tmp/environment.yml
+
+RUN micromamba install -y -n base -f /tmp/environment.yml && \
+    micromamba clean --all --yes
+
+ARG USER_UID
+ARG USER_NAME
+ENV USER_GID=$USER_UID
+ENV USER_GROUP="users"
+
+RUN mkdir /home/$USER_NAME && \
+    useradd -l -d /home/$USER_NAME -u $USER_UID -g $USER_GROUP $USER_NAME && \
+    mkdir /home/$USER_NAME/.local && \
+    chown -R ${USER_UID}:${USER_GID} /home/$USER_NAME/
+
+ENV PATH="/opt/conda/bin:${PATH}"
+
+CMD ["/bin/bash"]

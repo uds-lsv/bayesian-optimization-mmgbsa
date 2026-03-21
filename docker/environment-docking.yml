@@ -1,0 +1,15 @@
+name: base
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9.17
+  - rdkit=2024.3.1
+  - numpy=1.26.0
+  - scipy=1.13.1
+  - dask=2023.2.0
+  - pyyaml=6.0.1
+  - pip:
+    - vina==1.2.5
+    - meeko==0.5.1
+    - paramiko==3.4.0
+    - git+https://github.com/ci-lab-cz/easydock.git@v0.3.2
