@@ -163,7 +163,7 @@ class Optimizer:
             f"({iteration:0>4}) Predicted {result['smiles']}: {prediction_mean}"
         )
 
-        if self.args.sample_size == 1:
+        if size == 1:
             embedding = embedding.reshape(1, -1)
 
         model.update(embedding, affinities, result["smiles"].tolist())
