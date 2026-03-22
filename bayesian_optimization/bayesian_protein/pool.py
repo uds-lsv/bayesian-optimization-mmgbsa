@@ -163,6 +163,31 @@ class ClusteredLigandPools:
             arr_idx = np.argpartition(scores, size)[:size]  # smallest LCB = most promising
             idx = unlabeled.iloc[arr_idx].index
             score = scores[arr_idx]
+        elif by == "diverse":
+            # Greedy MaxMin (furthest-first): iteratively add the molecule that is
+            # furthest from all already-selected molecules, maximising coverage of
+            # embedding space. Seed with index 0 (closest to centroid, since clusters
+            # are sorted by ascending distance_to_centroid).
+            #
+            # Invariant: dist_to_nearest_selected[i] = distance from candidate i to
+            # its nearest already-selected molecule. The candidate with the largest
+            # value is the least-covered one and is picked next. Already-selected
+            # candidates are set to -inf so they are never re-picked.
+            embeddings = self.embeddings[unlabeled.index.values]  # (n, d)
+            selected = [0]  # seed: closest to centroid
+            dist_to_nearest_selected = np.linalg.norm(embeddings - embeddings[0], axis=1)  # (n,)
+            dist_to_nearest_selected[0] = -np.inf  # exclude from future selection
+            while len(selected) < size:
+                # Molecule furthest from all selected so far
+                next_idx = int(np.argmax(dist_to_nearest_selected))
+                selected.append(next_idx)
+                dist_to_nearest_selected[next_idx] = -np.inf
+                # Update: each candidate's nearest selected may now be next_idx
+                dist_to_new = np.linalg.norm(embeddings - embeddings[next_idx], axis=1)  # (n,)
+                dist_to_nearest_selected = np.minimum(dist_to_nearest_selected, dist_to_new)  # (n,)
+            idx = unlabeled.iloc[selected].index
+            score = [None] * size
+
         elif by == "explore":
             # Pick the k items with the largest variance.
             # If the output follows a gaussian distribution (e.g. regression) the variance

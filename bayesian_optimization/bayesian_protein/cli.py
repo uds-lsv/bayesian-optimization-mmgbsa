@@ -45,7 +45,7 @@ class CommandLineArgs:
     sampler: Sampler
     surrogate: Surrogate
     protein: str
-    init_sampler: Literal["closest", "random", "xth-closest"]
+    init_sampler: Literal["closest", "random", "xth-closest", "diverse"]
     init_sample_size: int = 1
     cluster: Optional[int] = 1
     out: Optional[pathlib.Path] = None
@@ -240,10 +240,10 @@ def parse_args() -> List[CommandLineArgs]:
     parser.add_argument(
         "--init-sampler",
         type=str,
-        choices=["random", "closest", "xth-closest"],
+        choices=["random", "closest", "xth-closest", "diverse"],
         help="How to choose the first sample. 'random' simply chooses one random sample. 'closest' chooses the cluster "
-             "centroid in the embedding space. xth-closest chooses the xth closest input to the centroid, can be set "
-             "using --init-sample-size",
+             "centroid in the embedding space. 'xth-closest' chooses the xth closest input to the centroid, can be set "
+             "using --init-sample-size. 'diverse' uses greedy MaxMin to select maximally spread molecules.",
         default="closest"
     )
 

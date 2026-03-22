@@ -12,7 +12,7 @@ Surrogate = typing.Literal[
     "linear-prior", "linear-empirical", "gp", "constant", "mlp", "molformer", "rf"
 ]
 Sampler = typing.Literal[
-    "random", "closest", "greedy", "expected-improvement", "explore", "xth-closest", "ucb"
+    "random", "closest", "greedy", "expected-improvement", "explore", "xth-closest", "ucb", "diverse"
 ]
 VALID_EMBEDDING_MODELS: typing.List[EmbeddingModel] = list(
     typing.get_args(EmbeddingModel)
