@@ -53,6 +53,7 @@ class CommandLineArgs:
     sim_center: Optional[Tuple[float, float, float]] = None
     sim_box: Optional[Tuple[float, float, float]] = None
     confidence: Optional[float] = 1.0
+    kappa: float = 2.0
     validate: Optional[bool] = False
     seed: Optional[int] = None
     sample_size: Optional[int] = 1
@@ -252,6 +253,13 @@ def parse_args() -> List[CommandLineArgs]:
         default=1,
         help="How many molecule to label before the first iteration. If --init-sampler='xth-closest' this determines"
              "which input to choose, i.e. if --init-sample-size=5 we will choose the 5th closest input."
+    )
+
+    parser.add_argument(
+        "--kappa",
+        type=float,
+        default=2.0,
+        help="Exploration-exploitation tradeoff for UCB acquisition. Higher = more exploration. (default: 2.0)",
     )
 
     parser.add_argument(

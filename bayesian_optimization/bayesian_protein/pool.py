@@ -103,7 +103,7 @@ class ClusteredLigandPools:
         pool = self._data[self._data["cluster"] == cluster_id]
         return pool
 
-    def sample(self, by: Sampler, cluster_id: int, model: BaseSurrogate, size: int):
+    def sample(self, by: Sampler, cluster_id: int, model: BaseSurrogate, size: int, kappa: float = 2.0):
         unlabeled = self._data[
             (self._data["cluster"] == cluster_id) & (~self._data["queried"])
         ]
@@ -155,6 +155,12 @@ class ClusteredLigandPools:
             )
             scores[scores < 0] = 0
             arr_idx = np.argpartition(scores, -size)[-size:]
+            idx = unlabeled.iloc[arr_idx].index
+            score = scores[arr_idx]
+        elif by == "ucb":
+            embeddings = self.embeddings[unlabeled.index.values]
+            scores = model.ucb_batch(embeddings, kappa, unlabeled["smiles"].tolist())
+            arr_idx = np.argpartition(scores, size)[:size]  # smallest LCB = most promising
             idx = unlabeled.iloc[arr_idx].index
             score = scores[arr_idx]
         elif by == "explore":

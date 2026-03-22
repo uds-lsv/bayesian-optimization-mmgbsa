@@ -79,13 +79,13 @@ class Optimizer:
                 cluster_id = self.bandit.choose()
                 self.logger.debug(f"({i:0>4}) Chose cluster {cluster_id} based on UCB.")
                 self.query(
-                    cluster_id, simulator, iteration=i, sampler=self.args.sampler, size=self.args.sample_size
+                    cluster_id, simulator, iteration=i, sampler=self.args.sampler, size=self.args.sample_size, kappa=self.args.kappa
                 )
 
                 if self.pool.cluster_is_empty(cluster_id):
                     self.bandit.remove(cluster_id)
 
-                self.validate(iteration=i, cluster_id=cluster_id)
+                # self.validate(iteration=i, cluster_id=cluster_id)
 
                 self.logger.info(f"{i:0>4} Iteration took {time.time() - t0:.2f}s")
 
@@ -121,7 +121,8 @@ class Optimizer:
                 simulator,
                 iteration=-1,
                 sampler=self.args.init_sampler,
-                size=self.args.init_sample_size
+                size=self.args.init_sample_size,
+                kappa=self.args.kappa,
             )
 
     def query(
@@ -130,13 +131,14 @@ class Optimizer:
         simulator: SimulatorBase,
         iteration: int,
         sampler: Sampler,
-        size: int
+        size: int,
+        kappa: float = 2.0,
     ):
         model = self.models[cluster_id]
 
         t0 = time.time()
         idx, result, acq_scores = self.pool.sample(
-            sampler, cluster_id, model, size
+            sampler, cluster_id, model, size, kappa=kappa
         )
         self.logger.debug(
             f"({iteration:0>4}) Chosen sample {result['smiles']}: {time.time() - t0:.2f}s"

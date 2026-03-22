@@ -124,6 +124,17 @@ class GaussianSurrogate(BaseSurrogate, abc.ABC):
         assert len(ei) == X.shape[0]
         return ei
 
+    def ucb_batch(self, X: np.ndarray, kappa: float, smiles: List[str]) -> np.ndarray:
+        """Lower confidence bound for minimization: mean - kappa * std.
+
+        :param X: (N, D) Design matrix
+        :param kappa: Exploration-exploitation tradeoff. Higher = more exploration.
+        :param smiles: List of SMILES strings of the input molecules
+        :return: (N,) LCB scores; lower = more promising
+        """
+        mean, std = self.forward(X, smiles)
+        return mean - kappa * std
+
     def expected_improvement(
         self, x: np.ndarray, best_seen: float, smiles: List[str]
     ) -> float:
@@ -310,6 +321,17 @@ class LinearPrior(BaseSurrogate):
 
         assert len(ei) == X.shape[0]
         return ei
+
+    def ucb_batch(self, X: np.ndarray, kappa: float, smiles: List[str]) -> np.ndarray:
+        """Lower confidence bound for minimization: mean - kappa * std.
+
+        :param X: (N, D) Design matrix
+        :param kappa: Exploration-exploitation tradeoff. Higher = more exploration.
+        :param smiles: List of SMILES strings of the input molecules
+        :return: (N,) LCB scores; lower = more promising
+        """
+        mean, std = self.forward(X, smiles)
+        return mean - kappa * std
 
     def expected_improvement(
         self, x: np.ndarray, best_seen: float, smiles: List[str]

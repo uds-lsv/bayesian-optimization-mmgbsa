@@ -32,7 +32,7 @@ def load_data(db, k_ratio=0.01):
     data = data.drop(columns=["embedding_model", "surrogate"])
 
     data["Scoring"] = data["sampler"].map({
-        "expected-improvement": "Expected Improvement",  "greedy": "Prediction", "random": "Random"
+        "expected-improvement": "Expected Improvement",  "greedy": "Prediction", "random": "Random", "ucb": "UCB"
     })
     
     data["Iteration"] += 1
