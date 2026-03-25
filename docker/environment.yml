@@ -24,3 +24,5 @@ dependencies:
   - mdanalysis=2.7.0
   - pdbfixer=1.9
   - umap-learn=0.5.6
+  - pip:
+    - rogi
