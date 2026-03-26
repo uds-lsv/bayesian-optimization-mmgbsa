@@ -26,3 +26,4 @@ dependencies:
   - umap-learn=0.5.6
   - pip:
     - rogi
+    - numpy==1.26.4
