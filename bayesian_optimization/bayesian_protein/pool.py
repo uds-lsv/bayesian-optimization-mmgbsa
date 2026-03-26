@@ -134,6 +134,17 @@ class ClusteredLigandPools:
             idx = unlabeled.index[size:size+1]
             score = unlabeled["distance_to_centroid"][size:size+1]
 
+        elif by == "stochastic-closest":
+            assert unlabeled[
+                "distance_to_centroid"
+            ].is_monotonic_increasing, "Pool is not sorted"
+            # size is reused as neighborhood K (top-K nearest); return 1 random molecule from it
+            k = min(size, len(unlabeled))
+            neighborhood_idx = unlabeled.index[:k]
+            chosen = self.rng.choice(neighborhood_idx, size=1, replace=False)
+            idx = pd.Index(chosen)
+            score = unlabeled.loc[chosen, "distance_to_centroid"]
+
         elif by == "greedy":
             embeddings = self.embeddings[unlabeled.index.values]
             prediction_mean, _ = model.forward(embeddings, unlabeled["smiles"].tolist())
