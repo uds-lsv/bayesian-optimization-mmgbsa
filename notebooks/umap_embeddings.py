@@ -44,7 +44,7 @@ def embed_huggingface(
     :return: (N, d) embedding matrix
     :rtype: np.ndarray
     """
-    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True, use_fast=False)
     model = AutoModel.from_pretrained(model_name, trust_remote_code=True)
     for param in model.parameters():
         param.requires_grad = False

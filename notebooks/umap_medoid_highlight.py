@@ -198,9 +198,9 @@ def plot_umap_medoid(
     bg_cmap = "plasma_r"
     bg_norm = mpl.colors.Normalize(vmin=targets.min(), vmax=targets.max())
 
-    # Discrete colormap for xth values
+    # Discrete colormap for xth values — winter (blue→green) contrasts against plasma_r's warm tones
     n_xth = len(xth_values)
-    xth_cmap = mpl.colormaps.get_cmap("viridis").resampled(n_xth)
+    xth_cmap = mpl.colormaps.get_cmap("winter").resampled(n_xth)
     xth_colors = {xth: xth_cmap(i / max(n_xth - 1, 1)) for i, xth in enumerate(xth_values)}
 
     # Layout: 1 row × (n_cols + colorbar_xth)
