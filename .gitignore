@@ -177,3 +177,4 @@ archive/
 *.tar.gz
 *.sub
 *.svg
+_*.*
