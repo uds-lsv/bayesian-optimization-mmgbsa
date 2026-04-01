@@ -175,3 +175,5 @@ results/
 baseline/wandb/
 archive/
 *.tar.gz
+*.sub
+*.svg
