@@ -125,7 +125,6 @@ class ProcessPlotter:
             color = self.get_color(model, group == "Batched")
             plt.plot(
                 y.index, y,
-                data=scene,
                 color=color,
                 linestyle=self.styles[model],
                 marker=self.markers[group] if group == "Batched" else None,
