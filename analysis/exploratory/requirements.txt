@@ -1,6 +1,0 @@
-rdkit
-scikit-learn
-numpy
-seaborn
-pandas
-notebook
