@@ -9,8 +9,8 @@ from typing import Optional, List, Callable, Tuple, Literal
 
 import pandas as pd
 
-from bayesian_protein.simulation import SimulatorBase
-from bayesian_protein.types import (
+from ligbo.simulation import SimulatorBase
+from ligbo.types import (
     VALID_EMBEDDING_MODELS,
     VALID_SAMPLERS,
     VALID_SIMULATOR,
@@ -119,7 +119,7 @@ class CommandLineArgs:
             return self._simulator(data)
 
         if self.oracle_script is not None:
-            from bayesian_protein.simulation import BashScriptSimulator
+            from ligbo.simulation import BashScriptSimulator
 
             return BashScriptSimulator(data, self.oracle_script)
 
@@ -128,13 +128,13 @@ class CommandLineArgs:
             #  if args.simulate == "smina", but the args.protein is a chembl id
             #  an error will be thrown
             #  The user should be made aware that the simulator expects a PDB id
-            from bayesian_protein.simulation import SminaSimulator
+            from ligbo.simulation import SminaSimulator
 
             return SminaSimulator(
                 data, self.out, self.protein, self.seed, self.sim_center, self.sim_box
             )
         elif self.simulate is None:
-            from bayesian_protein.simulation import DatasetSimulator
+            from ligbo.simulation import DatasetSimulator
 
             return DatasetSimulator(data)
 

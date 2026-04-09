@@ -12,8 +12,8 @@ from openbabel import pybel
 from openmm.app import PDBFile
 from pdbfixer import PDBFixer
 
-from bayesian_protein.types import MANDATORY_COLUMNS
-from bayesian_protein.utils import is_temporary_directory
+from ligbo.types import MANDATORY_COLUMNS
+from ligbo.utils import is_temporary_directory
 
 ResultT = Tuple[float, Optional[pathlib.Path]]
 

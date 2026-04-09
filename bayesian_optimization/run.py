@@ -4,10 +4,10 @@ import pathlib
 
 import pandas as pd
 
-from bayesian_protein.cli import parse_args
-from bayesian_protein.embedding import embedding_factory
-from bayesian_protein.optimizer import Optimizer
-from bayesian_protein.types import (
+from ligbo.cli import parse_args
+from ligbo.embedding import embedding_factory
+from ligbo.optimizer import Optimizer
+from ligbo.types import (
     EmbeddingModel,
 )
 

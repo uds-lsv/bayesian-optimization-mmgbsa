@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 
-from bayesian_protein.surrogates import BaseSurrogate
-from bayesian_protein.types import VALID_SAMPLERS, Sampler
+from ligbo.surrogates import BaseSurrogate
+from ligbo.types import VALID_SAMPLERS, Sampler
 
 
 def validate_cluster_id(method):

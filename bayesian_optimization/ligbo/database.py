@@ -3,7 +3,7 @@ import sqlite3
 from pathlib import Path
 from typing import List, Optional, Literal
 
-from bayesian_protein.types import EmbeddingModel, Sampler, Simulator, Surrogate
+from ligbo.types import EmbeddingModel, Sampler, Simulator, Surrogate
 
 
 @dataclasses.dataclass

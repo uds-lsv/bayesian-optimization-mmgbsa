@@ -7,7 +7,7 @@ from rdkit import Chem, DataStructs
 from rdkit.Chem import AllChem
 from transformers import AutoModel, AutoTokenizer
 
-from bayesian_protein.types import VALID_EMBEDDING_MODELS, EmbeddingModel
+from ligbo.types import VALID_EMBEDDING_MODELS, EmbeddingModel
 
 
 class BaseEmbedder(abc.ABC):

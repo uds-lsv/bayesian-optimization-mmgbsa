@@ -8,19 +8,19 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-from bayesian_protein.bandit import MultiarmedBanditPlayer
-from bayesian_protein.cli import CommandLineArgs
-from bayesian_protein.database import Database, QueryResult, ValidationSummaryResult
-from bayesian_protein.embedding import embedding_factory
-from bayesian_protein.pool import ClusteredLigandPools
-from bayesian_protein.simulation import SimulatorBase
-from bayesian_protein.surrogates import surrogate_factory
-from bayesian_protein.types import Sampler
+from ligbo.bandit import MultiarmedBanditPlayer
+from ligbo.cli import CommandLineArgs
+from ligbo.database import Database, QueryResult, ValidationSummaryResult
+from ligbo.embedding import embedding_factory
+from ligbo.pool import ClusteredLigandPools
+from ligbo.simulation import SimulatorBase
+from ligbo.surrogates import surrogate_factory
+from ligbo.types import Sampler
 
 
 class Optimizer:
     def setup_logger(self):
-        logger = logging.getLogger(f"bayesian_protein ({self.job_id})")
+        logger = logging.getLogger(f"ligbo ({self.job_id})")
         if not logger.handlers:
             logger.setLevel(logging.DEBUG)
             handler = logging.StreamHandler(sys.stdout)
@@ -31,7 +31,7 @@ class Optimizer:
             handler.setFormatter(formatter)
             logger.addHandler(handler)
         else:
-            logger = logging.getLogger(f"bayesian_protein ({self.job_id})")
+            logger = logging.getLogger(f"ligbo ({self.job_id})")
         return logger
 
     def __init__(

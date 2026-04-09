@@ -18,7 +18,7 @@ from torch.utils.data import DataLoader, TensorDataset, random_split, Dataset
 from tqdm import tqdm, trange
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-from bayesian_protein.types import VALID_SURROGATE_MODELS, Surrogate
+from ligbo.types import VALID_SURROGATE_MODELS, Surrogate
 
 
 class BaseSurrogate(abc.ABC):
