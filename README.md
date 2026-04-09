@@ -118,7 +118,7 @@ bayesian-optimization-mmgbsa/
 │
 ├── bayesian_optimization/       # Step 5: Active learning experiments
 │   ├── run.py                   # Main entry point
-│   └── bayesian_protein/        # Core BO library (surrogate models, embeddings, samplers)
+│   └── ligbo/        # Core BO library (surrogate models, embeddings, samplers)
 │
 ├── bayesian_optimization_results/  # Output: BO run results (populated at runtime)
 │
