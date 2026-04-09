@@ -304,7 +304,7 @@ def main() -> None:
         "--data",
         type=Path,
         default=Path(__file__).parent.parent
-        / "bayesian_optimization/data/processed/MCL1-mmgbsa.csv",
+        / "data/MCL1-mmgbsa.csv",
         help="Path to MCL1-mmgbsa CSV file",
     )
     data_group.add_argument(

@@ -35,7 +35,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-DATA_DIR = Path(__file__).parent.parent / "bayesian_optimization/data/processed"
+DATA_DIR = Path(__file__).parent.parent / "data"
 
 # Method configuration: name → (IntegrationDomain, x-axis label, output file prefix)
 METHOD_CONFIG = {

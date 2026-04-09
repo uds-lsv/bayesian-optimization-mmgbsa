@@ -18,7 +18,7 @@ export PYTHONPATH="."
 
 python run.py \
     --out mcl1_mmgbsa_seeds_${SEED} \
-    --data ./data/processed/MCL1-mmgbsa.csv \
+    --data ../data/MCL1-mmgbsa.csv \
     --surrogate linear-empirical \
     --embedding chemberta-mtr molformer fingerprint \
     --sampler expected-improvement \
@@ -30,7 +30,7 @@ python run.py \
 
 python run.py \
     --out mcl1_mmgbsa_stochastic_closest_${SEED} \
-    --data ./data/processed/MCL1-mmgbsa.csv \
+    --data ../data/MCL1-mmgbsa.csv \
     --surrogate linear-empirical \
     --embedding chemberta-mtr molformer fingerprint \
     --sampler expected-improvement \

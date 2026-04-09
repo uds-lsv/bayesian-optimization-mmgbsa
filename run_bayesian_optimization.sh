@@ -4,16 +4,16 @@ cd bayesian_optimization
 export PYTHONPATH="."
 
 # Batch acquisition
-python run.py --out mcl1_mmpbsa_gb_batch --data  ./data/processed/MCL1-mmgbsa.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  6 --protein  MCL1 --sample-size  600
-python run.py --out mcl1_vina_batch --data  ./data/processed/MCL1-vina.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  6 --protein  MCL1 --sample-size  600
-python run.py --out enamine_10k_batch --data  ./data/processed/Enamine10k_scores.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  6 --protein  4HW3 --sample-size  100
-python run.py --out enamine_50k_batch --data  ./data/processed/Enamine50k_scores.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  6 --protein  4HW3 --sample-size  500
+python run.py --out mcl1_mmpbsa_gb_batch --data  ../data/MCL1-mmgbsa.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  6 --protein  MCL1 --sample-size  600
+python run.py --out mcl1_vina_batch --data  ../data/MCL1-vina.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  6 --protein  MCL1 --sample-size  600
+python run.py --out enamine_10k_batch --data  ../data/Enamine10k_scores.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  6 --protein  4HW3 --sample-size  100
+python run.py --out enamine_50k_batch --data  ../data/Enamine50k_scores.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  6 --protein  4HW3 --sample-size  500
 
 # Single acquisition
-python run.py --out enamine_10k --data  ./data/processed/Enamine10k_scores.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  600 --protein  4HW3 --sample-size  1
-python run.py --out enamine_50k --data ./data/processed/Enamine50k_scores.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter 3000 --protein 4HW3 --sample-size 1
-python run.py --out mcl1_vina --data  ./data/processed/MCL1-vina.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  3600 --protein  MCL1 --sample-size  1
-python run.py --out mcl1_mmpbsa_gb --data  ./data/processed/MCL1-mmgbsa.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  3600 --protein  MCL1 --sample-size  1
+python run.py --out enamine_10k --data  ../data/Enamine10k_scores.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  600 --protein  4HW3 --sample-size  1
+python run.py --out enamine_50k --data ../data/Enamine50k_scores.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter 3000 --protein 4HW3 --sample-size 1
+python run.py --out mcl1_vina --data  ../data/MCL1-vina.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  3600 --protein  MCL1 --sample-size  1
+python run.py --out mcl1_mmpbsa_gb --data  ../data/MCL1-mmgbsa.csv --surrogate linear-empirical rf --embedding chemberta-mtr molformer fingerprint --sampler expected-improvement --n-iter  3600 --protein  MCL1 --sample-size  1
 
 
 # Abolation on the effect of the medoid
@@ -24,7 +24,7 @@ for xth in "${XTH[@]}"; do
     for i in {1..5}; do
         python run.py \
             --out mcl1_mmgbsa_medoid_$1_shuffled \
-            --data ./data/processed/MCL1-mmgbsa.csv \
+            --data ../data/MCL1-mmgbsa.csv \
             --surrogate linear-empirical \
             --embedding chemberta-mtr molformer fingerprint \
             --sampler expected-improvement \

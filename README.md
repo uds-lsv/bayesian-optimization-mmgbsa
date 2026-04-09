@@ -44,7 +44,7 @@ Run the preprocessing notebook to produce the required CSV files:
 ```
 data/process_data.ipynb
 ```
-Copy the outputs to `bayesian_optimization/data/processed/`. Expected files:
+Expected output files in `data/`:
 - `MCL1-mmgbsa.csv` — MCL1 MM/GBSA scores
 - `MCL1-vina.csv` — MCL1 Vina docking scores
 - `Enamine10k_scores.csv`
@@ -118,8 +118,7 @@ bayesian-optimization-mmgbsa/
 │
 ├── bayesian_optimization/       # Step 5: Active learning experiments
 │   ├── run.py                   # Main entry point
-│   ├── bayesian_protein/        # Core BO library (surrogate models, embeddings, samplers)
-│   └── data/processed/          # Preprocessed datasets (populated by data/process_data.ipynb)
+│   └── bayesian_protein/        # Core BO library (surrogate models, embeddings, samplers)
 │
 ├── bayesian_optimization_results/  # Output: BO run results (populated at runtime)
 │

@@ -21,7 +21,7 @@ export PYTHONPATH="."
 
 python run.py \
     --out mcl1_mmgbsa_ei_${INIT_SAMPLER}_init${INIT_SIZE} \
-    --data ./data/processed/MCL1-mmgbsa.csv \
+    --data ../data/MCL1-mmgbsa.csv \
     --surrogate linear-empirical \
     --embedding chemberta-mtr molformer fingerprint \
     --sampler expected-improvement \

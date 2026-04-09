@@ -18,7 +18,7 @@ export PYTHONPATH="."
 
 python run.py \
     --out mcl1_mmgbsa_ucb_kappa${KAPPA} \
-    --data ./data/processed/MCL1-mmgbsa.csv \
+    --data ../data/MCL1-mmgbsa.csv \
     --surrogate linear-empirical \
     --embedding chemberta-mtr molformer fingerprint \
     --sampler ucb \
