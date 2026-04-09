@@ -57,6 +57,7 @@ class CommandLineArgs:
     validate: Optional[bool] = False
     seed: Optional[int] = None
     sample_size: Optional[int] = 1
+    oracle_script: Optional[pathlib.Path] = None
     # For internal use only
     _simulator: Optional[Callable[[pd.DataFrame], SimulatorBase]] = None
 
@@ -70,6 +71,9 @@ class CommandLineArgs:
             self.data = pathlib.Path(self.data)
             if "~" in str(self.data):
                 self.data = self.data.expanduser()
+
+        if isinstance(self.oracle_script, str):
+            self.oracle_script = pathlib.Path(self.oracle_script)
 
         self._check_paths()
 
@@ -99,6 +103,9 @@ class CommandLineArgs:
         if not self.data.exists():
             raise ValueError(f"The dataset path '{self.data}' does not exist.")
 
+        if self.oracle_script is not None and not self.oracle_script.exists():
+            raise ValueError(f"The oracle script '{self.oracle_script}' does not exist.")
+
     def set_simulator(self, simulator_cls: Callable[[pd.DataFrame], SimulatorBase]):
         """
         Sets the simulator to use to this simulator instance.
@@ -110,6 +117,11 @@ class CommandLineArgs:
         # Simulator has been altered by hand by the user
         if self._simulator is not None:
             return self._simulator(data)
+
+        if self.oracle_script is not None:
+            from bayesian_protein.simulation import BashScriptSimulator
+
+            return BashScriptSimulator(data, self.oracle_script)
 
         if self.simulate == "smina":
             # TODO: fix if protein is chembl id
@@ -183,6 +195,14 @@ def parse_args() -> List[CommandLineArgs]:
         help="Size of the bounding box around the pocket. --sim-box sizex sizey sizez",
     )
 
+    parser.add_argument(
+        "--oracle-script",
+        type=str,
+        default=None,
+        help="Path to a bash script used as the scoring oracle. "
+             "The script receives a SMILES string as its first argument and must print a single float to stdout. "
+             "When set, the pool CSV only needs a 'smiles' column (no 'target' required).",
+    )
     parser.add_argument(
         "--protein",
         type=str,

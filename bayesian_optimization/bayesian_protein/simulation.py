@@ -308,4 +308,35 @@ class SminaSimulator(SimulatorBase):
             )
 
 
+class BashScriptSimulator(SimulatorBase):
+    """Oracle that calls a user-provided bash script for scoring.
+
+    The script receives a SMILES string as its first positional argument and
+    must print a single float to stdout (negative = better, e.g. kcal/mol).
+    A non-zero exit code causes ``subprocess.CalledProcessError`` to propagate.
+
+    :param pd.DataFrame data: Pool DataFrame; must contain a ``smiles`` column.
+    :param pathlib.Path script: Path to the bash script to invoke.
+    """
+
+    def __init__(self, data: pd.DataFrame, script: pathlib.Path):
+        self.script = script
+        super().__init__(data)
+
+    def _check_data(self):
+        if "smiles" not in self.data.columns:
+            raise ValueError("Dataset is missing mandatory column: smiles.")
+
+    def __call__(self, smiles: str) -> ResultT:
+        result = subprocess.run(
+            ["bash", str(self.script), smiles],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return float(result.stdout.strip()), None
+
+    def __exit__(self, *args): ...
+
+
 class InvalidAtomError(BaseException): ...
