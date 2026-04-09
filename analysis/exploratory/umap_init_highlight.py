@@ -304,14 +304,14 @@ def main() -> None:
     model_group.add_argument(
         "--umap-n-neighbors",
         type=int,
-        default=15,
-        help="UMAP n_neighbors (default 15)",
+        default=30,
+        help="UMAP n_neighbors (default 30)",
     )
     model_group.add_argument(
         "--umap-min-dist",
         type=float,
-        default=0.1,
-        help="UMAP min_dist (default 0.1)",
+        default=0.05,
+        help="UMAP min_dist (default 0.05)",
     )
     model_group.add_argument(
         "--umap-init",

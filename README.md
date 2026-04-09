@@ -62,8 +62,8 @@ Results are written to `bayesian_optimization_results/`. To run ablations:
 bash run_seeds.sh           # Initialization robustness
 bash run_batch_size.sh      # batch acquisition size
 bash run_diverse_init.sh    # diverse initialization
-bash run_ucb_experiment.sh  # UCB acquisition function
-bash run_ucb_kappa.sh       # UCB kappa sweep
+bash run_ucb_experiment.sh  # UCB kappa sweep
+bash run_ucb_kappa.sh       # UCB acquisition function for specific kappa
 ```
 
 ### Generate figures
@@ -134,22 +134,15 @@ bayesian-optimization-mmgbsa/
 │   ├── mcl1_mmgbsa_ucb.ipynb    # UCB acquisition function experiments
 │   ├── enamine10k.ipynb         # Enamine 10k benchmark
 │   ├── enamine50k.ipynb         # Enamine 50k benchmark
-│   ├── seeds_error_bars.ipynb   # Seed robustness / error bars
+│   ├── seeds_error_bars.ipynb   # Initialization robustness / error bars
 │   ├── rogi_curves.ipynb        # ROGI landscape analysis
-│   └── utils.py                 # Shared plotting utilities
-│
-├── notebooks/                   # Exploratory dataset analysis
-│   ├── score_analysis.ipynb     # Docking and MM/GBSA score distributions
-│   ├── exp_corr.ipynb           # Docking vs MM/GBSA correlation on experimental binders
-│   ├── screening.ipynb          # Screening result analysis
-│   └── README.md
-│
-├── smoothness/                  # Landscape smoothness analysis (ROGI)
+│   ├── utils.py                 # Shared plotting utilities
+│   └── exploratory/             # Exploratory dataset analysis (score distributions, embeddings)
 │
 ├── run_bayesian_optimization.sh # Runs all main BO experiments
-├── run_seeds.sh                 # Seed robustness sweep
+├── run_seeds.sh                 # Initialization robustness sweep
 ├── run_batch_size.sh            # Batch size ablation
 ├── run_diverse_init.sh          # Diverse initialization ablation
-├── run_ucb_experiment.sh        # UCB acquisition ablation
-└── run_ucb_kappa.sh             # UCB kappa hyperparameter sweep
+├── run_ucb_experiment.sh        # UCB kappa hyperparameter sweep
+└── run_ucb_kappa.sh             # UCB acquisition ablation
 ```

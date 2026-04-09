@@ -8,8 +8,8 @@ Usage example
 -------------
 cd bayesian_optimization && export PYTHONPATH="."
 python ../notebooks/umap_medoid_highlight.py \\
-    --medoid-db ../analysis/results/mcl1_mmgbsa_medoid_chemberta-mtr_shuffled.sqlite \\
-    --medoid-db ../analysis/results/mcl1_mmgbsa_medoid_molformer_shuffled.sqlite
+    --medoid-db ../../bayesian_optimization_results/mcl1_mmgbsa_medoid_chemberta-mtr_shuffled.sqlite \\
+    --medoid-db ../../bayesian_optimization_results/mcl1_mmgbsa_medoid_molformer_shuffled.sqlite
 """
 
 import argparse
@@ -25,7 +25,6 @@ import seaborn as sns
 import torch
 import umap
 from matplotlib.gridspec import GridSpec
-from sklearn.manifold import Isomap
 from rdkit import Chem, DataStructs
 from rdkit.Chem import AllChem
 from transformers import AutoModel, AutoTokenizer
@@ -355,13 +354,6 @@ def main() -> None:
         choices=["pca", "spectral", "random"],
         help="UMAP initialization method (default: pca)",
     )
-    model_group.add_argument(
-        "--reduction-method",
-        type=str,
-        default="umap",
-        choices=["umap", "isomap"],
-        help="Dimensionality reduction method (default: umap)",
-    )
     args = parser.parse_args()
 
     medoid_dbs = args.medoid_dbs or []
@@ -399,21 +391,14 @@ def main() -> None:
         logger.info("Computing %s embeddings...", name)
         emb = compute_emb()
         logger.info("  shape: %s", emb.shape)
-        logger.info("Running %s on %s...", args.reduction_method.upper(), name)
-        if args.reduction_method == "isomap":
-            reducer = Isomap(
-                n_neighbors=args.umap_n_neighbors,
-                n_components=2,
-                metric="euclidean",
-            )
-        else:
-            reducer = umap.UMAP(
-                n_neighbors=args.umap_n_neighbors,
-                min_dist=args.umap_min_dist,
-                init=args.umap_init,
-                random_state=args.umap_seed,
-                metric="euclidean",
-            )
+        logger.info("Running UMAP on %s...", name)
+        reducer = umap.UMAP(
+            n_neighbors=args.umap_n_neighbors,
+            min_dist=args.umap_min_dist,
+            init=args.umap_init,
+            random_state=args.umap_seed,
+            metric="euclidean",
+        )
         projections[name] = reducer.fit_transform(emb)
         del emb
 
