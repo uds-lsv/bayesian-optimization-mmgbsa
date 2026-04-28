@@ -195,7 +195,7 @@ All arguments to `bayesian_optimization/run.py`:
 
 | name | description | notes |
 |------|-------------|-------|
-| `molformer` | IBM MolFormer-XL | Best performance in our experiments; requires GPU for speed |
+| `molformer` | IBM MolFormer-XL | Best performance in our experiments |
 | `chemberta-mtr` | ChemBERTa (multi-task regression) | Good balance of speed and quality |
 | `chemberta-mlm` | ChemBERTa (masked language model) | Slightly weaker than MTR variant |
 | `fingerprint` | Morgan fingerprints (radius 2, 2048 bits) | Fast; no model loading required |
