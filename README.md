@@ -2,15 +2,14 @@
 
 This repository accompanies the paper:
 
-> **Bayesian Optimization for Structure-Based Drug Design with High-Fidelity MM/GBSA Scoring**
+> **Accelerating ligand discovery by combining Bayesian optimization with MMGBSA-based binding affinity calculations**
 > [https://doi.org/10.1101/2025.06.22.660936](https://doi.org/10.1101/2025.06.22.660936)
 
 We study active learning / Bayesian optimization (BO) for structure-based drug design, using MM/GBSA
 as a high-fidelity oracle in place of fast docking scores. The main finding is that BO with
-molecular language model embeddings efficiently recovers top-scoring compounds with far fewer
-oracle evaluations than random screening.
+molecular language model embeddings efficiently recovers top-scoring compounds.
 
-![Top-k recovery across iterations](analysis/figures/top_k_iter_both_Linear.png)
+![Top-k recovery across iterations](analysis/figures/docking_vs_mmgbsa.png)
 
 For a guide on running the optimizer on your own data or with a custom scoring oracle, see
 [USAGE.md](USAGE.md).
