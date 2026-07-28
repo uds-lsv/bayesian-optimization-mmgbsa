@@ -3,7 +3,7 @@
 This repository accompanies the paper:
 
 > **Accelerating ligand discovery by combining Bayesian optimization with MMGBSA-based binding affinity calculations**
-> [https://doi.org/10.1101/2025.06.22.660936](https://doi.org/10.1101/2025.06.22.660936)
+> [https://doi.org/10.1039/d5dd00522a](https://doi.org/10.1039/d5dd00522a)
 
 We study active learning / Bayesian optimization (BO) for structure-based drug design, using MM/GBSA
 as a high-fidelity oracle in place of fast docking scores. The main finding is that BO with
