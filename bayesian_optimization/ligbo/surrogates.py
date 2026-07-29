@@ -21,6 +21,10 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from ligbo.types import VALID_SURROGATE_MODELS, Surrogate
 
 
+MOLFORMER_MODEL = "ibm/MoLFormer-XL-both-10pct"
+MOLFORMER_REVISION = "compat-v4"
+
+
 class BaseSurrogate(abc.ABC):
     def __init__(self):
         super().__init__()
@@ -581,11 +585,14 @@ class MolformerSurrogate(GaussianSurrogate):
         self.epochs = epochs
         self.early_stopping_patience = early_stopping_patience
         self.tokenizer = AutoTokenizer.from_pretrained(
-            "ibm/MoLFormer-XL-both-10pct", trust_remote_code=True
+            MOLFORMER_MODEL,
+            trust_remote_code=True,
+            revision=MOLFORMER_REVISION,
         )
         self.model = AutoModelForSequenceClassification.from_pretrained(
-            "ibm/MoLFormer-XL-both-10pct",
+            MOLFORMER_MODEL,
             trust_remote_code=True,
+            revision=MOLFORMER_REVISION,
             num_labels=1,
             classifier_dropout_prob=0.2,  # For Probability estimates
         ).to(self.device)

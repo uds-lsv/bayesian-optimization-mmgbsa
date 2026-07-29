@@ -10,6 +10,10 @@ from transformers import AutoModel, AutoTokenizer
 from ligbo.types import VALID_EMBEDDING_MODELS, EmbeddingModel
 
 
+MOLFORMER_MODEL = "ibm/MoLFormer-XL-both-10pct"
+MOLFORMER_REVISION = "compat-v4"
+
+
 class BaseEmbedder(abc.ABC):
     def __init__(self, batch_size: int):
         self.batch_size = batch_size
@@ -74,10 +78,15 @@ class MolformerEmbedder(BaseEmbedder):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.tokenizer = AutoTokenizer.from_pretrained(
-            "ibm/MoLFormer-XL-both-10pct", trust_remote_code=True
+            MOLFORMER_MODEL,
+            trust_remote_code=True,
+            revision=MOLFORMER_REVISION,
         )
         self.model = AutoModel.from_pretrained(
-            "ibm/MoLFormer-XL-both-10pct", trust_remote_code=True
+            MOLFORMER_MODEL,
+            deterministic_eval=True,
+            trust_remote_code=True,
+            revision=MOLFORMER_REVISION,
         )
 
         for param in self.model.parameters():
